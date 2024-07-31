@@ -30,30 +30,35 @@ function App() {
   };
   return (
 
-    <div className="flex relative items-center justify-center h-screen bg-black w-full">
+    <div className="flex relative items-center justify-center h-screen mesh-bg w-full">
       <div className="absolute top-2">
-        <h1 className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text font-bold text-[25px]">Chat Bot</h1>
+        {/* <h1 className="font-bold text-[25px] text-white">Chat Bot</h1> */}
       </div>
-      <div className="fixed flex itesm-center justify-between border-2 bottom-5 rounded-md bg-[#161616] border-[#cbcbcb] h-[50px] w-[90%] ">
+      <div className="fixed flex itesm-center justify-between border-2 bottom-5 rounded-md  bg-[#ddd] border-[#cbcbcb] h-[50px] w-[90%] ">
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
           placeholder="Ask Me Something You Want"
-          className="w-[90%] h-[99%] bg-transparent outline-none text-white p-2"
+          className="w-[90%] h-[99%] bg-transparent outline-none text-black p-2"
         />
         <button onClick={getResponseForGivenPrompt} className="self-right right-0 mt-[1px] h-[50px] w-[40px]">
           <img src={sendButton} alt="send button" />
         </button>
       </div>
-      <div className="w-full flex items-center justify-end text-white pr-10 over">
-        <div className="w-[70%] flex gap-2 flex-col">
-        
-        {promptResponses.map((promptResponse, index) => (
-           <div key={index} >
-            <AnsCard title={promptResponse.title} value={promptResponse.ans} />
-           </div>
-         ))}
+      <div className="w-full flex items-center justify-center text-white pr-10 over">
+        <div className="w-full flex itesm-center justify-center gap-2 flex-col">
+        {
+          (promptResponses.length === 0) ? (
+            <div className="flex items-center justify-center ">
+              <h1 className="bg-transparent border-2 border-white p-2 rounded-md">What is on your mind</h1>
+            </div>
+          ):promptResponses.map((promptResponse, index) => (
+            <div key={index} >
+             <AnsCard title={promptResponse.title} value={promptResponse.ans} />
+            </div>
+          ))
+        }
         </div>
       </div>
     </div>
