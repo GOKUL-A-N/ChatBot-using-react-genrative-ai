@@ -7,7 +7,7 @@ function App() {
   const [promptResponses, setpromptResponses] = useState([]);
   const [loading, setLoading] = useState(false);
   const genAI = new GoogleGenerativeAI(
-    "AIzaSyCjZHjL5x-6tnaunWkBqpitv_1rDf4u1OA"
+    "API_KEY"
 // add your api key here
   );
   const handleInputChange = (e) => {
