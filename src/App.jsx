@@ -1,73 +1,62 @@
-import React, { useState } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
+import React, { useState } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import AnsCard from "./components/AnsCard.jsx";
+import sendButton from "./assets/sendButton.png";
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [promptResponses, setpromptResponses] = useState([]);
-  const [loading, setLoading] = useState(false);
   const genAI = new GoogleGenerativeAI(
     "API_KEY"
-// add your api key here
+    // add your api key here
   );
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
   const getResponseForGivenPrompt = async () => {
     try {
-      setLoading(true)
       const model = genAI.getGenerativeModel({ model: "gemini-pro" });
       const result = await model.generateContent(inputValue);
-      setInputValue('')
+      
       const response = result.response;
       const text = response.text();
-      console.log(text)
-      setpromptResponses([...promptResponses,text]);
-  
-      setLoading(false)
-    }
-    catch (error) {
-      console.log(error)
+      console.log(text);
+      setpromptResponses([...promptResponses, {title:inputValue, ans:text}]);
+      setInputValue("");
+    } catch (error) {
+      console.log(error);
       console.log("Something Went Wrong");
-      setLoading(false)
     }
-  }
-    ;
-
+  };
   return (
-    <div className="container">
-    <div className="row">
-      <div className="col">
+
+    <div className="flex relative items-center justify-center h-screen bg-black w-full">
+      <div className="absolute top-2">
+        <h1 className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text font-bold text-[25px]">Chat Bot</h1>
+      </div>
+      <div className="fixed flex itesm-center justify-between border-2 bottom-5 rounded-md bg-[#161616] border-[#cbcbcb] h-[50px] w-[90%] ">
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
           placeholder="Ask Me Something You Want"
-          className="form-control"
+          className="w-[90%] h-[99%] bg-transparent outline-none text-white p-2"
         />
+        <button onClick={getResponseForGivenPrompt} className="self-right right-0 mt-[1px] h-[50px] w-[40px]">
+          <img src={sendButton} alt="send button" />
+        </button>
       </div>
-      <div className="col-auto">
-        <button onClick={getResponseForGivenPrompt} className="btn btn-primary">Send</button>
+      <div className="w-full flex items-center justify-end text-white pr-10 over">
+        <div className="w-[70%] flex gap-2 flex-col">
+        
+        {promptResponses.map((promptResponse, index) => (
+           <div key={index} >
+            <AnsCard title={promptResponse.title} value={promptResponse.ans} />
+           </div>
+         ))}
+        </div>
       </div>
     </div>
-    {loading ? (
-      <div className="text-center mt-3">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-       // This message is shown while your answer to your prompt is being generated
-        </div>
-      </div>
-    ) : (
-      promptResponses.map((promptResponse, index) => (
-        <div key={index} >
-          <div className={`response-text ${index === promptResponses.length - 1 ? 'fw-bold' : ''}`}>{promptResponse}</div>
-     //the latest response shown in bold letters
-        </div>
-      ))
-    )}
-  </div>
-  
   );
-
 }
 export default App;
