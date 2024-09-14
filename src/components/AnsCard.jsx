@@ -3,12 +3,8 @@ import React from 'react'
 const AnsCard = (props) => {
   return (
     <div className='p-4'>
-        <div className='w-full flex items-end justify-end'>
-        <p className='rounded-md pl-2 pr-2 pb-1 pt-1 text-black font-semibold text-right bg-white'>{props.title}</p>
-        </div><br />
-        <div className='w-full flex items-start justify-start'>
-        <p className='rounded-md pl-2 pr-2 pb-1 pt-1 text-white bg-transparent border-2 font-semibold text-left border-white'>{props.value}</p>
-        </div>
+        <h2 className='font-semibold'><span className=""><span className="bg-[#0093d9]">$user@chatbot</span><span className="bg-[#1fbc0d]">/gen-ai</span> </span><span className='text-[#198147] font-bold'> ~ </span> <span className='text-[#1fbc0d]'>{props.title}</span></h2>
+        <p>{props.value}</p>
     </div>
   )
 }
